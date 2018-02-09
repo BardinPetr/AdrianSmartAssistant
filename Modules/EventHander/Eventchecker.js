@@ -9,7 +9,7 @@ function dbConn(){
 
     // Input the connection parameters
      var connection = mysql.createConnection({
-        host     : 'localhost',
+        host     : constants.DB_HOST,
         user     : constants.DB_USER,
         password : constants.DB_PASS,
         database : constants.DB_NAME

@@ -44,6 +44,7 @@ This file stores all important
  *	Database connection params
  ******************************************************************/ 
 
+	define("DB_HOST", "localhost");
 	define("DB_NAME", "adrian_new");
 	define("DB_USER", "root");
 	define("DB_PASS", "root");
