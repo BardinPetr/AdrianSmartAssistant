@@ -77,20 +77,19 @@ This file stores all important
 	define("GOOGLE_TEMP", __dirname + "/Modules/Google/Temp/Google.html");
 	define("GOOGLE_LANG", __dirname + "en");
 
-	/* Ivona 
+	/* Amazon Polly (earlier known as Ivona) 
 	   For Text to Speech Service 
 	   If you dont have one get it at 
-	   https://www.ivona.com */
+	   https://aws.amazon.com/ru/polly/ */
 
-	define("IVONA_ACCESSKEY", "");
-	define("IVONA_SECRETKEY", "");
+	define("POLLY_ACCESSKEY", "");
+	define("POLLY_SECRETKEY", "");
+	define("POLLY_AWS_REGION",	"");
 
-	define("IVONA_TEMP_DIR",  __dirname + "/Modules/Speaker/Temp/");
+	define("POLLY_TEMP_DIR",  __dirname + "/Modules/Speaker/Temp/");
 
-	define("IVONA_VOICE",	"Brian");
-	define("IVONA_LANG", 	"en-GB");
-	define("IVONA_GENDER", 	"Male"); 
-	
+	define("POLLY_VOICE",	"Brian");
+
 	/* Speaker module */
 	define("SPEAKER_TEMP_DIR", __dirname + "/Modules/Speaker/Temp/");
 
