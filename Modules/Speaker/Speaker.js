@@ -73,7 +73,8 @@ function Speak(ModuleParams) {
                     return console.log(chalk.red("SPEAKER MODULE : TTS ERROR: " + err.message))
                 }
                 audioStream.pipe(fileStream);    
-                audioStream.on('data', (chunk) => {
+                audioStream.on('end', () => {
+                    console.log(chalk.red("SPEAKER MODULE : SPEAK STARTED"))
                     var ModulExec = execSync('play ' + filePath, {
                         stdio: "ignore"
                     }); //hide it with ignore
