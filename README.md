@@ -64,8 +64,8 @@ All users also need an Ivona account.  If you dont have one get it at  https://w
 It is a very easy process, just pick the free plan option and register.
 Once you have your Ivona credentials change the constants.js repacling the values starting with 'YOUR_' below:
 
-	define("IVONA_ACCESSKEY", "YOUR_IVONA_ACCESSKEY_COMES_HERE");
-	define("IVONA_SECRETKEY", "YOUR_IVONA_SECRETKEY_COMES_HERE");
+	define("POLLY_ACCESSKEY", "YOUR_POLLY_ACCESSKEY_COMES_HERE");
+	define("POLLY_SECRETKEY", "YOUR_POLLY_SECRETKEY_COMES_HERE");
 
 
 3. SnowBoy hotword file configuration 

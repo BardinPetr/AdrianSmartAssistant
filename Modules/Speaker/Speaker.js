@@ -1,6 +1,5 @@
-
 // load file hander lib
-var fs = require('fs');  
+var fs = require('fs');
 
 //load cripto lib
 var _hash = require('crypto-toolkit').Hash('hex');
@@ -17,85 +16,74 @@ var chalk = require('../../node_modules/chalk');
 var baseModel = require(constants.BASE_MODULE);
 
 /*
-* Speak Function using Ivona Library
-*/
+ * Speak Function using Ivona Library
+ */
 
-function Speak(ModuleParams){
+function Speak(ModuleParams) {
 
     var text = ModuleParams["text"]
     var mode = ModuleParams["mode"]
 
     //speak on facebook
-    if (mode == "facebook"){
+    if (mode == "facebook") {
 
-        baseModel.LeaveQueueMsg("Facebook", "Message", {"message":text,"threadId":ModuleParams["threadId"]})
+        baseModel.LeaveQueueMsg("Facebook", "Message", {
+            "message": text,
+            "threadId": ModuleParams["threadId"]
+        })
 
     }
 
     // speak on speaker
-    if (mode == "natural"){
+    if (mode == "natural") {
 
         //console.log(ModuleParams["text"])
         var textHash = _hash.sha256(text);
+        let filePath = constants.POLLY_TEMP_DIR + textHash + '.mp3';
 
-        console.log(constants.IVONA_TEMP_DIR+textHash+'.mp3')
-        
-        if (fs.existsSync(constants.IVONA_TEMP_DIR+textHash+'.mp3')) {
-            
-            var ModulExec = execSync('sudo play '+constants.IVONA_TEMP_DIR+textHash+'.mp3', {stdio:"ignore"} ); //hide it with ignore
-            
-        }else{
-            
-            var ivona = new (require('../../node_modules/ivona-node'))({
-                accessKey: constants.IVONA_ACCESSKEY,
-                secretKey: constants.IVONA_SECRETKEY
+        console.log(filePath)
+
+        if (fs.existsSync(filePath)) {
+
+            var ModulExec = execSync('play ' + filePath, {
+                stdio: "ignore"
+            }); //hide it with ignore
+
+        } else {
+
+            let fs = require('fs');
+            let Polly = require('polly-tts');
+            let polly = new Polly({
+                accessKeyId: constants.POLLY_ACCESSKEY,
+                secretAccessKey: constants.POLLY_SECRETKEY
             });
 
-            //  ivona.createVoice(text, config)
-            //  [string] text - the text to be spoken
-            //  [object] config (optional) - override Ivona request via 'body' value
-            
-            var w = fs.createWriteStream(constants.IVONA_TEMP_DIR+textHash+'.mp3');
+            let options = {
+                text: text,
+                textType: "text",
+                region: constants.POLLY_AWS_REGION,
+                voiceId: constants.POLLY_VOICE,
+                sampleRate: 22050,
+                outputFormat: "mp3"
+            };
 
-            var voice = ivona.createVoice(text, {
-                body: {
-                    voice: {
-                        name:  constants.IVONA_VOICE, 
-                        language: constants.IVONA_LANG,
-                        gender: constants.IVONA_GENDER 
-                    }
+            let fileStream = fs.createWriteStream(filePath);
+            polly.textToSpeech(options, (err, audioStream) => {
+                if (err) {
+                    return console.log(chalk.red("SPEAKER MODULE : TTS ERROR: " + err.message))
                 }
-            }).pipe(w);
-
-            w.on('finish', function(){
-
-                fs.readFile(constants.IVONA_TEMP_DIR+textHash+'.mp3', 'utf8', function (err,data) {
-                    if (err) {
-
-                        console.log(chalk.red("SPEAKER MODUEL : Can't open speech file."))
-                        return false
-                    }
-
-                    try {
-
-                        var errorMsg = JSON.parse(data);
-                        console.log(chalk.red("SPEAKER MODUEL : Ivona error message"))
-                        console.log(errorMsg)   
-
-                    } catch (e) {
-                        
-                        var ModulExec = execSync('play '+constants.IVONA_TEMP_DIR+textHash+'.mp3', {stdio:"ignore"} ); //hide it with ignore
-                    
-                    }
-
+                audioStream.pipe(fileStream);    
+                audioStream.on('data', (chunk) => {
+                    var ModulExec = execSync('play ' + filePath, {
+                        stdio: "ignore"
+                    }); //hide it with ignore
                 });
-
             });
         }
 
     }
 
-    
+
 
 }
 

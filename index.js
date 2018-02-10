@@ -39,13 +39,13 @@ if (typeof constants.GOOGLE_APPLICATION_CREDENTIALS == 'undefined' ||
 }
 
 
-if (typeof constants.IVONA_ACCESSKEY == 'undefined'|| 
-    typeof constants.IVONA_SECRETKEY == 'undefined'|| 
-    constants.IVONA_ACCESSKEY.length<=0 || 
-    constants.IVONA_SECRETKEY.length<=0){
+if (typeof constants.POLLY_ACCESSKEY == 'undefined'|| 
+    typeof constants.POLLY_SECRETKEY == 'undefined'|| 
+    constants.POLLY_ACCESSKEY.length<=0 || 
+    constants.POLLY_SECRETKEY.length<=0){
 
     console.log(chalk.red("\n[ ERROR : Core Modules (Google Speech Service, Ivona) need to be configured before start ]\n"));
-    console.log(chalk.red("\n[ Please set up IVONA_ACCESSKEY, IVONA_SECRETKEY values in the constants.js file ]\n"));
+    console.log(chalk.red("\n[ Please set up POLLY_ACCESSKEY, POLLY_SECRETKEY values in the constants.js file ]\n"));
     console.log(chalk.red("\n[ See documnetation in the constants.js or on www.theadrianproject.com ]\n"));
     var ModulExec = execSync('killall php nodejs node python cu cat mpg123 play' , {stdio:"ignore"}); //hide it with ignore
     process.exit(1);
